@@ -3,6 +3,7 @@
 namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'users')]
@@ -15,10 +16,12 @@ class User
     private int $id;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 6)]
     private string $login;
 
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 50)]
     private string $password;
 
 /**
@@ -75,5 +78,12 @@ class User
     {
         $this->password = md5($password);
     }
+//    #[Assert\NotBlank]
+//    #[Assert\Length(min: 8)]
+//    #[Assert\IsTrue(message: 'Login must have at least 8 characters')]
+//    public function isLoginValid()
+//    {
+//        return $this->login;
+//    }
 
 }
