@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My wishes{% endblock %}
+
+{% block content %}
+    Всі твої бажання:
+    <section>
+        <ul>
+            {% for wish in wishes %}
+                <li>
+                    <ul>
+                        <li>Your wish: {{ wish.id}}</li>
+
+                        <li>Your wish: <h3>{{ wish.wish}}</h3></li>
+                        <br>
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+{% endblock %}

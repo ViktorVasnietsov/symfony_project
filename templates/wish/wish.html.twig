@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My wishes{% endblock %}
+
+{% block content %}
+    <section>
+        <form action="{{ form_action }}" method="post">
+            <div class="mb-3">
+
+                <lable class="form-label">Write your new wish: <label>
+                        <input type="text" class="form-control" name="wish">
+                    </label>
+                    <button type="submit" class="btn btn-warning">Create</button>
+                </lable>
+            </div>
+        </form>
+    </section>
+{% endblock %}

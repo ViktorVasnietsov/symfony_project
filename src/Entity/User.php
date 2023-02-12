@@ -1,89 +1,108 @@
 <?php
 
 namespace App\Entity;
-use Doctrine\DBAL\Types\Types;
+
+use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity]
-#[ORM\Table(name: 'users')]
-
-class User
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
-    #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue]
-    private int $id;
+    #[ORM\Column]
+    private ?int $id = null;
 
-    #[ORM\Column(length: 30)]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 6)]
-    private string $login;
+    #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Email(
+        message: 'The email {{ value }} is not a valid email.',
+    )]
+    private ?string $email = null;
 
+    #[ORM\Column]
+    private array $roles = [];
 
-    #[ORM\Column(length: 50)]
-    private string $password;
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
+    #[ORM\OneToMany(mappedBy: 'user',targetEntity: Wish::class,fetch: 'LAZY')]
+    private $wishes;
 
-/**
-* @param string $login
-* @param string $password
-*/
-    public function __construct(string $login, string $password)
-    {
-        $this->login = $login;
-        $this->codePassword($password);
-    }
-
-/**
-* @return int
-*/
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-/**
-* @param int $id
-*/
-    public function setId(int $id): void
+    public function getEmail(): ?string
     {
-        $this->id = $id;
+        return $this->email;
     }
 
-/**
-* @return string
-*/
-    public function getLogin(): string
+    public function setEmail(string $email): self
     {
-        return $this->login;
+        $this->email = $email;
+
+        return $this;
     }
 
-/**
-* @param string $login
-*/
-    public function setLogin(string $login): void
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
     {
-        $this->login = $login;
+        return (string) $this->email;
     }
 
-/**
-* @return string
-*/
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    public function codePassword(string $password): void
+    public function setPassword(string $password): self
     {
-        $this->password = md5($password);
-    }
-//    #[Assert\NotBlank]
-//    #[Assert\Length(min: 8)]
-//    #[Assert\IsTrue(message: 'Login must have at least 8 characters')]
-//    public function isLoginValid()
-//    {
-//        return $this->login;
-//    }
+        $this->password = $password;
 
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
 }
