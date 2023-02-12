@@ -27,9 +27,6 @@ class MyWishes implements IDoNewWishes
         }catch (\Exception){
             throw new \Exception('something went wrong with wishes :/');
         }
-
-
-
 }
 
     public function allWishes(?Wish $wish = null)
@@ -40,6 +37,18 @@ class MyWishes implements IDoNewWishes
             throw new \Exception('oops something wrong');
         }
         
+}
+
+    public function deleteWish(int $id)
+    {
+        try {
+            $wish = $this->repository->find($id);
+            $this->objectManager->remove($wish);
+            $this->objectManager->flush();
+        }catch (\Exception){
+            throw new \Exception('oops something wrong');
+        }
+
 }
     public function save(object $object)
     {

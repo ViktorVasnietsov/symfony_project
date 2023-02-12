@@ -33,12 +33,22 @@ class WishController extends AbstractController
             'form_action'=>$this->generateUrl('newWish')
         ]);
     }
-    #[Route('/allWishes', methods: ['GET'])]
+    #[Route('/allWishes',name:'allWishes', methods: ['GET'])]
     public function allWishes():Response
     {
         $allWishes = $this->doNewWishes->allWishes();
         return $this->render('wish/allWishes.html.twig',[
             'wishes'=>$allWishes,
         ]);
+    }
+
+    #[Route('/dellWishes{id}',name:'dell_wishes',methods: ['GET'])]
+    public function dellWishes($id):Response
+    {
+            $this->doNewWishes->deleteWish($id);
+            return $this->redirect('/allWishes');
+//            return $this->render('wish/allWishes.html.twig',[
+//                'form_action'=>$this->generateUrl('allWishes')
+//            ]);
     }
 }
