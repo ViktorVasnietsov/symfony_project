@@ -8,7 +8,9 @@
             <button onclick="location.href='findUsers'" type="button" class="btn btn-outline-primary left">Back</button>
         </div>
         <br>
-        <h4>User ID: {{ user.id }}</h4>
-        <h4>User Email: {{ user.email }}</h4>
+
+            <h4>User Email: {{ user.email }}</h4><br>
+{#            <h4>User Email: {{ user.wishes }}</h4><br>#}
+        <a href={{ path('friendsWish', {'id': user.id}) }}>see</a>
     </section>
 {% endblock %}

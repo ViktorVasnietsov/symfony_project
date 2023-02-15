@@ -53,6 +53,9 @@
                 .left{
                     margin-right: 300px;
                 }
+                .right{
+                    right: 0;
+                }
             </style>
         {% endblock %}
 
@@ -70,15 +73,19 @@
 
                     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                         <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
-                        <li><a href="/Wish" class="nav-link px-2 link-dark">New</a></li>
-                        <li><a href="/allWishes" class="nav-link px-2 link-dark">All</a></li>
+                        <li><a href="/w/Wish" class="nav-link px-2 link-dark">New</a></li>
+                        <li><a href="/w/allWishes" class="nav-link px-2 link-dark">All</a></li>
                         <li><a href="/findUsers" class="nav-link px-2 link-dark">Friends</a></li>
-                        <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+                        <li><a href="https://github.com/ViktorVasnietsov/symfony_project" class="nav-link px-2 link-dark">GitHub</a></li>
                     </ul>
 
                     <div class="col-md-3 text-end">
+                        {% if is_granted('ROLE_USER') %}
+                        <button onclick="location.href='/logout'" type="button" class="btn btn-outline-primary me-2">Logout</button>
+                        {% else %}
                         <button onclick="location.href='login'" type="button" class="btn btn-outline-primary me-2">Login</button>
                         <button onclick="location.href='register'" type="button" class="btn btn-primary">Sign-up</button>
+                        {% endif %}
                     </div>
                 </header>
             </div>

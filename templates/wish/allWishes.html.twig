@@ -3,23 +3,56 @@
 {% block title %}My wishes{% endblock %}
 
 {% block content %}
-    <h2>Всі твої бажання:</h2><br>
-    <section>
-        <ul>
-            {% for wish in wishes %}
-                <li>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                {% block active %}
+                    <section>
+                    <h2>Всі твої активні бажання:</h2><br>
                     <ul>
-                        <li>Your wish ID: {{ wish.id}}</li>
+                        {% for wish in a_wishes %}
+                            <li>
+                                <ul>
+                                    <li>Your wish ID: {{ wish.id}}</li>
 
-                        <li>Your wish: <h3>{{ wish.wish}}</h3>
-                        <br>
+                                    <li>Your wish: <h3>{{ wish.wish}}</h3>
+                                        <br>
+                                </ul>
+                                <div class="col-md-6 text-end">
+                                    <a href={{ path('dell_wishes', {'id': wish.id}) }}> <button type="button" class="btn btn-outline-primary me-2 del">Delete</button></a>
+                                    <a href={{ path('done_wishes', {'id': wish.id}) }}><button type="button" class="btn btn-primary done">Done</button></a>
+                                </div><br>
+                            </li>
+                        {% endfor %}
                     </ul>
-                    <div class="col-md-3 text-end">
-                        <a href={{ path('dell_wishes', {'id': wish.id}) }}> <button type="button" class="btn btn-outline-primary me-2 del">Delete</button></a>
-                        <button type="button" class="btn btn-primary done">Done</button>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    </section>
+                    </section>
+                {% endblock %}
+            </div>
+
+            <div class="col-md-6 right">
+                {% block done %}
+                    <section>
+                    <h2>Всі твої здійснені бажання:</h2><br>
+                    <ul>
+                        {% for wish in d_wishes %}
+                            <li>
+                                <ul>
+                                    <li>Your wish ID: {{ wish.id}}</li>
+
+                                    <li>Your wish: <h3>{{ wish.wish}}</h3>
+                                        <br>
+                                </ul>
+                                <div class="col-md-6 text-end">
+                                    <a href={{ path('dell_wishes', {'id': wish.id}) }}> <button type="button" class="btn btn-outline-primary me-2 del">Delete</button></a>
+                                    <a href={{ path('activate_wishes', {'id': wish.id}) }}> <button type="button" class="btn btn-primary done">Back to active</button></a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    </section>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

@@ -15,21 +15,45 @@ class Wish
     #[ORM\Column(type: "integer")]
     private ?int $id;
 
+    #[ORM\Column(type: 'string')]
+    private string $wish;
+
+    #[ORM\Column(type: 'smallint')]
+    private int $status = 0;
+
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'wishes')]
     #[ORM\JoinColumn(name: 'user_id',referencedColumnName: 'id')]
     private User $user;
 
-    #[ORM\Column(type: 'string')]
-    private string $wish;
+    public function __construct(string $wish, User $user, int $status = 0)
+    {
+        $this->user = $user;
+        $this->wish = $wish;
+        $this->status = $status;
+    }
 
     /**
-
-     * @param string $wish
+     * @return int
      */
-    public function __construct(string $wish)
+    public function getStatus(): int
     {
-//        $this->user = $user;
-        $this->wish = $wish;
+        return $this->status;
+    }
+
+    /**
+     * @param int $status
+     */
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
+    }
+    public function setDone(): void
+    {
+        $this->status = 1;
+    }
+    public function setActive(): void
+    {
+        $this->status = 0;
     }
 
     /**

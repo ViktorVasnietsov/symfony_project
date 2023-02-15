@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -33,8 +34,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
-    #[ORM\OneToMany(mappedBy: 'user',targetEntity: Wish::class,fetch: 'LAZY')]
-    private $wishes;
+
+    #[ORM\OneToMany(mappedBy: 'user',targetEntity: Wish::class)]
+    private \Doctrine\Common\Collections\Collection $wishes;
+
+    public function __construct()
+    {
+        $this->wishes = new ArrayCollection();
+    }
+
+
+    public function getWishes(): \Doctrine\Common\Collections\Collection
+    {
+        return $this->wishes;
+    }
 
     public function getId(): ?int
     {

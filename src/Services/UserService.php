@@ -6,6 +6,7 @@ use Doctrine\DBAL\Driver\PDO\Exception;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserService implements IDoFindUsers
 {
@@ -21,11 +22,21 @@ class UserService implements IDoFindUsers
     public function findUser(string $email)
     {
         try {
-            $user = $this->repository->findOneBy(['email'=> $email]);
+            $user = $this->repository->findOneBy(['email' => $email]);
             return $user;
-        }catch (\Exception){
+        } catch (\Exception) {
             throw new Exception('User not found');
         }
     }
 
+//    public function friendsWish($id)
+//    {
+//        try {
+//            $friend = $this->repository->findBy(['id' => $id]);
+//            return $friend;
+//        } catch (\Exception) {
+//            throw new \Exception('oops something wrong');
+//        }
+//
+//    }
 }

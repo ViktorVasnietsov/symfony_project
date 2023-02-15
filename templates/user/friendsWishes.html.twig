@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Friends{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="col-md-3 text-end">
+            <button onclick="location.href='/findUsers'" type="button" class="btn btn-outline-primary left">Back</button>
+        </div>
+        <br>
+        {% for wish in wishes %}
+        <li>
+            <ul>
+{#                <li>Your wish ID: {{ wish.id}}</li>#}
+
+                <li><h4>Your friends wishes:</h4><br>
+                    <h3>{{ wish.wish}}</h3>
+                    <br>
+            </ul>
+            {% endfor %}
+    </section>
+{% endblock %}
