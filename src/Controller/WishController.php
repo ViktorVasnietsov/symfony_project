@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Services\IDoNewWishes;
+use App\Services\IDoWishes;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,7 @@ class WishController extends AbstractController
 {
 
     public function __construct(
-        protected IDoNewWishes $doNewWishes
+        protected IDoWishes $doWishes
     )
     {
     }
@@ -22,7 +22,7 @@ class WishController extends AbstractController
     #[Route('/newWish',name:'newWish', methods: ['POST'])]
     public function newWish(Request $request):Response
     {
-        $wish = $this->doNewWishes->newWish($request->request->get('wish'));
+        $wish = $this->doWishes->newWish($request->request->get('wish'));
         return $this->render('wish/ok.html.twig',[
             'wish'=> $wish,
         ]);
@@ -30,7 +30,7 @@ class WishController extends AbstractController
     #[Route('/friendsWish{id}', name: 'friendsWish',methods: ['GET'])]
     public function getFriendsWish($id):Response
     {
-        $wishes = $this->doNewWishes->friendsWish($id);
+        $wishes = $this->doWishes->friendsWish($id);
         return $this->render('user/friendsWishes.html.twig',[
             'wishes'=>$wishes
         ]);
@@ -46,8 +46,8 @@ class WishController extends AbstractController
     #[Route('/allWishes',name:'allWishes', methods: ['GET'])]
     public function allWishes():Response
     {
-        $activeWishes = $this->doNewWishes->activeWishesForUser();
-        $doneWishes = $this->doNewWishes->doneWishes();
+        $activeWishes = $this->doWishes->activeWishesForUser();
+        $doneWishes = $this->doWishes->doneWishes();
         return $this->render('wish/allWishes.html.twig',[
             'a_wishes'=>$activeWishes,
             'd_wishes'=>$doneWishes,
@@ -57,21 +57,21 @@ class WishController extends AbstractController
     #[Route('/dellWishes{id}',name:'dell_wishes',methods: ['GET'])]
     public function dellWishes($id):Response
     {
-            $this->doNewWishes->deleteWish($id);
+            $this->doWishes->deleteWish($id);
             return $this->redirect('/w/allWishes');
     }
 
     #[Route('/doneWishes{id}',name:'done_wishes',methods: ['GET'])]
     public function doneWishes($id):Response
     {
-            $this->doNewWishes->wishDone($id);
+            $this->doWishes->wishDone($id);
             return $this->redirect('/w/allWishes');
     }
 
     #[Route('/activeWishes{id}',name:'activate_wishes',methods: ['GET'])]
     public function activateWishes($id):Response
     {
-            $this->doNewWishes->wishActive($id);
+            $this->doWishes->wishActive($id);
             return $this->redirect('/w/allWishes');
     }
 }

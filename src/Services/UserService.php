@@ -28,15 +28,4 @@ class UserService implements IDoFindUsers
             throw new Exception('User not found');
         }
     }
-
-//    public function friendsWish($id)
-//    {
-//        try {
-//            $friend = $this->repository->findBy(['id' => $id]);
-//            return $friend;
-//        } catch (\Exception) {
-//            throw new \Exception('oops something wrong');
-//        }
-//
-//    }
 }

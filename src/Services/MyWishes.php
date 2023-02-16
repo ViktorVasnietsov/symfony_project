@@ -3,14 +3,14 @@ namespace App\Services;
 
 use App\Entity\User;
 use App\Entity\Wish;
-use App\Services\IDoNewWishes;
+use App\Services\IDoWishes;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class MyWishes implements IDoNewWishes
+class MyWishes implements IDoWishes
 {
     protected ObjectManager $objectManager;
     protected  ObjectRepository $repository;
